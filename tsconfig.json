@@ -4,8 +4,8 @@
   "compilerOptions": {
     "target": "es5",
     "lib": [
-      "esnext"
-      // "dom",
+      "esnext",
+      "dom"
       // "dom.iterable"
     ],
     "moduleResolution": "node",

@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transition() should compose transitions 1`] = `"transform:translateX(12px) translateY(13px) matrix(1,1);opacity:1;transition:transform 1000ms,opacity 1000ms;"`;
+
+exports[`transition() should concat multiple transforms 1`] = `"transform:translateX(12px) translateY(13px) matrix(1,1);transition:transform 100ms;"`;
+
+exports[`transition() should concat multiple transitions 1`] = `"transform:translateX(12px) translateY(13px) matrix(1,1);opacity:1;transition:transform 100ms,opacity 30ms,opacity 50ms;"`;
+
+exports[`transition() should create transitions from object arguments 1`] = `"transform:translateX(12px) translateY(13px) matrix(1,1);opacity:1;transition:transform 100ms,opacity 50ms;"`;
+
+exports[`transition() should have special handling for transforms 1`] = `"transform:matrix(1,1);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 2`] = `"transform:matrix3d(1,1,1);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 3`] = `"transform:perspective(1px);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 4`] = `"transform:rotate(1deg);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 5`] = `"transform:rotateX(1deg);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 6`] = `"transform:rotateY(1deg);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 7`] = `"transform:rotateZ(1deg);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 8`] = `"transform:scale(1,1);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 9`] = `"transform:scaleX(1);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 10`] = `"transform:scaleY(1);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 11`] = `"transform:scaleZ(1);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 12`] = `"transform:scale3d(1,1,1);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 13`] = `"transform:skew(1deg,1deg);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 14`] = `"transform:skewX(1deg);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 15`] = `"transform:skewY(1deg);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 16`] = `"transform:translate3d(1px,1px,1px);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 17`] = `"transform:translate(1px,1px);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 18`] = `"transform:translateX(1px);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 19`] = `"transform:translateY(1px);transition:transform 100ms;"`;
+
+exports[`transition() should have special handling for transforms 20`] = `"transform:translateZ(1px);transition:transform 100ms;"`;
+
+exports[`transition() should override default delay 1`] = `"opacity:0;transition:opacity 100ms 300ms;"`;
+
+exports[`transition() should override default duration 1`] = `"opacity:0;transition:opacity 300ms;"`;
+
+exports[`transition() should override default timing 1`] = `"opacity:0;transition:opacity 100ms ease-in;"`;
+
+exports[`transition() should return class name 1`] = `"-ui-zi2gip"`;
+
+exports[`transition() should write styles to the DOM 1`] = `
+<style
+  data-dash="-ui"
+>
+  
+  .-ui-zi2gip{opacity:0;-webkit-transition:opacity 300ms;transition:opacity 300ms;}
+</style>
+`;
