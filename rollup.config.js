@@ -13,7 +13,11 @@ const config = (filename, env, plugins = []) => ({
     format: 'umd',
     exports: 'named',
     name: 'DashTransition',
+    globals: {
+      '@-ui/styles': 'Dash',
+    },
   },
+  external: ['@-ui/styles'],
   plugins: [
     resolve(),
     commonjs(),
