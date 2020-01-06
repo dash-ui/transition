@@ -70,6 +70,7 @@ const createTransitions = (
     delay = defs.delay
     timing = defs.timing
   }
+
   if (typeof styleName === 'string') {
     transitions.push(styleName)
   } else {
