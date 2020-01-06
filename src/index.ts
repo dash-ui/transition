@@ -5,7 +5,6 @@ import rootStyles, {
   DashCache,
   StyleObjectArgument,
 } from '@-ui/styles'
-import memoize from 'trie-memoize'
 
 const __DEV__ =
   typeof process !== 'undefined' && process.env.NODE_ENV !== 'production'
@@ -34,17 +33,6 @@ const transforms = {
   z: 'translateZ',
 }
 
-const getProperties = memoize([WeakMap], (phase: StyleObject) => {
-  const props: string[] = []
-
-  for (let key in phase) {
-    if (transforms[key] !== void 0) key = 'transform'
-    if (props.indexOf(key) === -1) props.push(cssCase(key))
-  }
-
-  return props
-})
-
 const unit = (value, unit = 'px') =>
   isNaN(value) || value === null ? value : `${value}${unit}`
 const pxTransforms = /^(translate|perspective)/
@@ -52,6 +40,8 @@ const degTransforms = /^(skew|rotate)/
 const cssCaseRe = /[A-Z]|^ms/g
 const cssCase = (string: string): string =>
   string.replace(cssCaseRe, '-$&').toLowerCase()
+const wsRe = /\s+/g
+const ws = value => value.trim().replace(wsRe, ' ')
 
 const createTransitions = (
   dash: DashCache,
@@ -66,8 +56,8 @@ const createTransitions = (
     transitions.push('default')
     let defs = transitionDefs.default
     if (typeof defs === 'function') defs = defs(dash.variables)
-    duration = defs.duration
-    delay = defs.delay
+    duration = unit(defs.duration, 'ms')
+    delay = unit(defs.delay, 'ms')
     timing = defs.timing
   }
 
@@ -88,10 +78,8 @@ const createTransitions = (
       timing: phaseTiming,
       ...phaseStyles
     } = phase
-    const transitionDuration = unit(
-      phaseDuration === void 0 ? duration : phaseDuration,
-      'ms'
-    )
+    const transitionDuration =
+      phaseDuration === void 0 ? duration : unit(phaseDuration, 'ms')
 
     /* istanbul ignore next */
     if (__DEV__) {
@@ -103,30 +91,16 @@ const createTransitions = (
     }
 
     const transitionDelay =
-      unit(phaseDelay === void 0 ? delay : phaseDelay, 'ms') || ''
+      (phaseDelay === void 0 ? delay : unit(phaseDelay, 'ms')) || ''
     const transitionTiming =
       (phaseTiming === void 0 ? timing : phaseTiming) || ''
-
-    for (const property of getProperties(phaseStyles)) {
-      transition.push(
-        (
-          property +
-          ' ' +
-          transitionDuration +
-          ' ' +
-          transitionDelay +
-          ' ' +
-          transitionTiming
-        )
-          .trim()
-          .replace(/\s+/g, ' ')
-      )
-    }
 
     for (let key in phaseStyles) {
       let value = phaseStyles[key]
 
       if (value !== void 0 && value !== null) {
+        let transitionProperty
+
         if (transforms[key] !== void 0) {
           key = transforms[key] || key
           styleDefs.transform = styleDefs.transform || {}
@@ -142,9 +116,24 @@ const createTransitions = (
           }
 
           styleDefs.transform[key] = value
+          transitionProperty = 'transform'
         } else {
           styleDefs[key] = value
+          transitionProperty = cssCase(key)
         }
+
+        const transitionValue = ws(
+          transitionProperty +
+            ' ' +
+            transitionDuration +
+            ' ' +
+            transitionDelay +
+            ' ' +
+            transitionTiming
+        )
+
+        transition.indexOf(transitionValue) === -1 &&
+          transition.push(transitionValue)
       }
     }
   }
