@@ -39,7 +39,7 @@ import transition from '@-ui/transition'
 
 styles.variables({
   transitions: {
-    durations: {
+    duration: {
       slow: '1s',
     },
   },
