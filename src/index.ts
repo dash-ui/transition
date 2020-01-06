@@ -40,8 +40,6 @@ const degTransforms = /^(skew|rotate)/
 const cssCaseRe = /[A-Z]|^ms/g
 const cssCase = (string: string): string =>
   string.replace(cssCaseRe, '-$&').toLowerCase()
-const wsRe = /\s+/g
-const ws = value => value.trim().replace(wsRe, ' ')
 
 const createTransitions = (
   dash: DashCache,
@@ -69,8 +67,8 @@ const createTransitions = (
 
   const transition: string[] = []
 
-  for (const name of transitions) {
-    let phase = transitionDefs[name]
+  for (let i = 0; i < transitions.length; i++) {
+    let phase = transitionDefs[transitions[i]]
     if (typeof phase === 'function') phase = phase(dash.variables)
     const {
       duration: phaseDuration,
@@ -85,17 +83,23 @@ const createTransitions = (
     if (__DEV__) {
       if (transitionDuration === void 0 || transitionDuration === null) {
         throw new Error(
-          `No duration was found for the phase "${name}". All phases require a duration.`
+          `No duration was found for the phase "${transitions[i]}". All phases require a duration.`
         )
       }
     }
 
-    const transitionDelay =
-      (phaseDelay === void 0 ? delay : unit(phaseDelay, 'ms')) || ''
-    const transitionTiming =
-      (phaseTiming === void 0 ? timing : phaseTiming) || ''
+    let transitionDelayAndTiming = (
+      ((phaseDelay === void 0 ? delay : unit(phaseDelay, 'ms')) || '') +
+      ' ' +
+      ((phaseTiming === void 0 ? timing : phaseTiming) || '')
+    ).trim()
+    transitionDelayAndTiming = transitionDelayAndTiming
+      ? ' ' + transitionDelayAndTiming
+      : ''
+    const styleKeys = Object.keys(phaseStyles)
 
-    for (let key in phaseStyles) {
+    for (let j = 0; j < styleKeys.length; j++) {
+      let key = styleKeys[j]
       let value = phaseStyles[key]
 
       if (value !== void 0 && value !== null) {
@@ -122,15 +126,11 @@ const createTransitions = (
           transitionProperty = cssCase(key)
         }
 
-        const transitionValue = ws(
+        const transitionValue =
           transitionProperty +
-            ' ' +
-            transitionDuration +
-            ' ' +
-            transitionDelay +
-            ' ' +
-            transitionTiming
-        )
+          ' ' +
+          transitionDuration +
+          transitionDelayAndTiming
 
         transition.indexOf(transitionValue) === -1 &&
           transition.push(transitionValue)
