@@ -171,9 +171,8 @@ const createTransitionsFromArgs = (
 export interface Transitioner {
   (...args: (string | StyleObjectArgument)[]): string
   css: (...names: (string | StyleObjectArgument)[]) => string
-  dash: DashCache
+  style: (...names: (string | StyleObjectArgument)[]) => StyleObject
   transitions: TransitionDefs
-  create?: (styles: Styles) => Transition
 }
 
 export interface TransitionPhase {
@@ -193,10 +192,12 @@ export interface TransitionDefs {
 
 export interface Transition {
   (...transitionArgs: (TransitionDefs | Transitioner)[]): Transitioner
+  dash: DashCache
+  create: (styles: Styles) => Transition
 }
 
 const createTransition = (styles: Styles): Transition => {
-  return (
+  const transition = (
     ...transitionArgs: (TransitionDefs | Transitioner)[]
   ): Transitioner => {
     const transitions = Object.assign(
@@ -218,22 +219,26 @@ const createTransition = (styles: Styles): Transition => {
       return styles.one(normalizedStyleDefs)()
     }
 
-    transitioner.css = (...names: (string | StyleObjectArgument)[]): string => {
+    transitioner.css = (...names: (string | StyleObjectArgument)[]): string =>
+      styles.one(transitioner.style(...names)).css()
+    transitioner.style = (
+      ...names: (string | StyleObjectArgument)[]
+    ): StyleObject => {
       const normalizedStyleDefs = createTransitionsFromArgs(
         styles.dash,
         transitions,
         names
       )
-      if (!normalizedStyleDefs) return ''
-      return styles.one(normalizedStyleDefs).css()
+      if (!normalizedStyleDefs) return {}
+      return normalizedStyleDefs
     }
-
     transitioner.transitions = transitions
-    transitioner.dash = styles.dash
-    transitioner.create = (styles: Styles): Transition =>
-      createTransition(styles)
     return transitioner
   }
+
+  transition.dash = styles.dash
+  transition.create = (styles: Styles): Transition => createTransition(styles)
+  return transition
 }
 
 export default createTransition(rootStyles)

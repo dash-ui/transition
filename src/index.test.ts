@@ -201,4 +201,34 @@ describe('transition()', () => {
       t.css({slide: true, fadeIn: true}, {fadeOut: false})
     ).toMatchSnapshot()
   })
+
+  it('should compose transitions to style object', () => {
+    const t = transition({
+      default: {
+        duration: 1000,
+      },
+      slide: {
+        x: 12,
+        y: 13,
+        matrix: [1, 1],
+        duration: 300,
+      },
+      fadeIn: {
+        opacity: 1,
+      },
+      fadeOut: {
+        opacity: 0,
+      },
+    })
+
+    expect(
+      t.style({slide: true, fadeIn: true}, {fadeOut: false})
+    ).toMatchSnapshot()
+  })
+
+  it('should create new instance', () => {
+    const newStyles = styles.create()
+    const t = transition.create(newStyles)
+    expect(t.dash).toBe(newStyles.dash)
+  })
 })

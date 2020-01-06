@@ -2,6 +2,14 @@
 
 exports[`transition() should compose transitions 1`] = `"transform:translateX(12px) translateY(13px) matrix(1,1);opacity:1;transition:transform 1000ms,opacity 1000ms;"`;
 
+exports[`transition() should compose transitions to style object 1`] = `
+Object {
+  "opacity": 1,
+  "transform": "translateX(12px) translateY(13px) matrix(1,1)",
+  "transition": "transform 300ms,opacity 1000ms",
+}
+`;
+
 exports[`transition() should concat multiple transforms 1`] = `"transform:translateX(12px) translateY(13px) matrix(1,1);transition:transform 100ms;"`;
 
 exports[`transition() should concat multiple transitions 1`] = `"transform:translateX(12px) translateY(13px) matrix(1,1);opacity:1;transition:transform 100ms,opacity 30ms,opacity 50ms;"`;
