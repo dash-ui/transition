@@ -206,7 +206,9 @@ export interface Transition {
 }
 
 const createTransition = (styles: Styles): Transition => {
-  return (...transitionArgs: (TransitionDefs | Transitioner)[]): Transitioner => {
+  return (
+    ...transitionArgs: (TransitionDefs | Transitioner)[]
+  ): Transitioner => {
     const transitions = Object.assign(
       {},
       ...transitionArgs.map((arg: TransitionDefs | Transitioner) =>
@@ -214,7 +216,9 @@ const createTransition = (styles: Styles): Transition => {
       )
     )
 
-    const transitioner = (...args: (string | StyleObjectArgument)[]): string => {
+    const transitioner = (
+      ...args: (string | StyleObjectArgument)[]
+    ): string => {
       const normalizedStyleDefs = createTransitionsFromArgs(
         styles.dash,
         transitions,
@@ -236,7 +240,8 @@ const createTransition = (styles: Styles): Transition => {
 
     transitioner.transitions = transitions
     transitioner.dash = styles.dash
-    transitioner.create = (styles: Styles): Transition => createTransition(styles)
+    transitioner.create = (styles: Styles): Transition =>
+      createTransition(styles)
     return transitioner
   }
 }

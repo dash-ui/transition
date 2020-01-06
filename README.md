@@ -45,8 +45,7 @@ styles.variables({
   },
 })
 
-// Returns a styles() function, just like @-ui/styles
-const fade = transition(styles, {
+const fade = transition({
   // default styles and options
   default: {
     duration: 100,

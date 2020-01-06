@@ -179,8 +179,8 @@ describe('transition()', () => {
   it('should compose transitions', () => {
     const slow = transition({
       default: {
-        duration: 1000
-      }
+        duration: 1000,
+      },
     })
 
     const t = transition(slow, {
@@ -190,10 +190,10 @@ describe('transition()', () => {
         matrix: [1, 1],
       },
       fadeIn: {
-        opacity: 1
+        opacity: 1,
       },
       fadeOut: {
-        opacity: 0
+        opacity: 0,
       },
     })
 
