@@ -8,7 +8,7 @@ afterEach(() => {
 
 describe('transition()', () => {
   it('should write styles to the DOM', () => {
-    const fade = transition({
+    const fade = transition(styles, {
       in: {
         opacity: 0,
         duration: 300,
@@ -21,7 +21,7 @@ describe('transition()', () => {
   })
 
   it('should return class name', () => {
-    const fade = transition({
+    const fade = transition(styles, {
       in: {
         opacity: 0,
         duration: 300,
@@ -32,7 +32,7 @@ describe('transition()', () => {
   })
 
   it('should override default duration', () => {
-    const fade = transition({
+    const fade = transition(styles, {
       default: {
         duration: 100,
       },
@@ -46,7 +46,7 @@ describe('transition()', () => {
   })
 
   it('should override default timing', () => {
-    const fade = transition({
+    const fade = transition(styles, {
       default: {
         timing: 'linear',
         duration: 100,
@@ -61,13 +61,29 @@ describe('transition()', () => {
   })
 
   it('should override default delay', () => {
-    const fade = transition({
+    const fade = transition(styles, {
       default: {
         delay: 100,
         duration: 100,
       },
       in: {
         opacity: 0,
+        delay: 300,
+      },
+    })
+
+    expect(fade.css('in')).toMatchSnapshot()
+  })
+
+  it('should ignore null values', () => {
+    const fade = transition(styles, {
+      default: {
+        delay: 100,
+        duration: 100,
+      },
+      in: {
+        opacity: null,
+        y: 0,
         delay: 300,
       },
     })
@@ -100,7 +116,7 @@ describe('transition()', () => {
     }
 
     for (const [key, value] of Object.entries(transforms)) {
-      const t = transition({
+      const t = transition(styles, {
         default: {
           duration: 100,
         },
@@ -114,7 +130,7 @@ describe('transition()', () => {
   })
 
   it('should concat multiple transforms', () => {
-    const t = transition({
+    const t = transition(styles, {
       default: {
         duration: 100,
       },
@@ -129,7 +145,7 @@ describe('transition()', () => {
   })
 
   it('should concat multiple transitions', () => {
-    const t = transition({
+    const t = transition(styles, {
       default: {
         duration: 100,
       },
@@ -152,7 +168,7 @@ describe('transition()', () => {
   })
 
   it('should create transitions from object arguments', () => {
-    const t = transition({
+    const t = transition(styles, {
       default: {
         duration: 100,
       },
@@ -177,13 +193,14 @@ describe('transition()', () => {
   })
 
   it('should compose transitions', () => {
-    const slow = transition({
+    const slow = transition(styles, {
       default: {
         duration: 1000,
       },
     })
 
-    const t = transition(slow, {
+    const t = transition(styles, {
+      ...slow.transitions,
       slide: {
         x: 12,
         y: 13,
@@ -203,7 +220,7 @@ describe('transition()', () => {
   })
 
   it('should compose transitions to style object', () => {
-    const t = transition({
+    const t = transition(styles, {
       default: {
         duration: 1000,
       },
@@ -226,9 +243,66 @@ describe('transition()', () => {
     ).toMatchSnapshot()
   })
 
-  it('should create new instance', () => {
-    const newStyles = styles.create()
-    const t = transition.create(newStyles)
-    expect(t.dash).toBe(newStyles.dash)
+  it('should create default phase with a function', () => {
+    type Variables = {
+      duration: {
+        slow: 1000
+      }
+    }
+
+    const myStyles = styles.create<Variables>()
+    myStyles.variables({
+      duration: {
+        slow: 1000,
+      },
+    })
+
+    const t = transition(myStyles, {
+      default: ({duration}) => ({
+        duration: duration.slow,
+      }),
+      slide: {
+        x: 12,
+        y: 13,
+        matrix: [1, 1],
+      },
+    })
+
+    expect(t.style('slide')).toMatchSnapshot()
+  })
+
+  it('should create phase with a function', () => {
+    type Variables = {
+      duration: {
+        slow: 1000
+      }
+    }
+
+    const myStyles = styles.create<Variables>()
+    myStyles.variables({
+      duration: {
+        slow: 1000,
+      },
+    })
+
+    const t = transition(myStyles, {
+      default: {
+        duration: 300,
+      },
+      slide: ({duration}) => ({
+        x: 12,
+        y: 13,
+        matrix: [1, 1],
+        duration: duration.slow,
+      }),
+      fadeIn: {
+        opacity: 1,
+      },
+      fadeOut: {
+        opacity: 0,
+      },
+    })
+
+    expect(t.style('slide')).toMatchSnapshot()
   })
 })

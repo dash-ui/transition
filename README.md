@@ -15,8 +15,8 @@
   <a aria-label="Code coverage report" href="https://codecov.io/gh/dash-ui/transition">
     <img alt="Code coverage" src="https://img.shields.io/codecov/c/gh/dash-ui/transition?style=for-the-badge&labelColor=24292e">
   </a>
-  <a aria-label="Build status" href="https://travis-ci.org/dash-ui/transition">
-    <img alt="Build status" src="https://img.shields.io/travis/dash-ui/transition?style=for-the-badge&labelColor=24292e">
+  <a aria-label="Build status" href="https://travis-ci.com/dash-ui/transition">
+    <img alt="Build status" src="https://img.shields.io/travis/dash-ui/com/transition?style=for-the-badge&labelColor=24292e">
   </a>
   <a aria-label="NPM version" href="https://www.npmjs.com/package/@-ui/transition">
     <img alt="NPM Version" src="https://img.shields.io/npm/v/@-ui/transition?style=for-the-badge&labelColor=24292e">
@@ -45,7 +45,7 @@ styles.variables({
   },
 })
 
-const fade = transition({
+const fade = transition(styles, {
   // default styles and options
   default: {
     duration: 100,

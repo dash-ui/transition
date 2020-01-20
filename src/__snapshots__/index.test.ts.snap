@@ -14,6 +14,20 @@ exports[`transition() should concat multiple transforms 1`] = `"transform:transl
 
 exports[`transition() should concat multiple transitions 1`] = `"transform:translateX(12px) translateY(13px) matrix(1,1);opacity:1;transition:transform 100ms,opacity 30ms,opacity 50ms;"`;
 
+exports[`transition() should create default phase with a function 1`] = `
+Object {
+  "transform": "translateX(12px) translateY(13px) matrix(1,1)",
+  "transition": "transform var(--duration-slow)",
+}
+`;
+
+exports[`transition() should create phase with a function 1`] = `
+Object {
+  "transform": "translateX(12px) translateY(13px) matrix(1,1)",
+  "transition": "transform var(--duration-slow)",
+}
+`;
+
 exports[`transition() should create transitions from object arguments 1`] = `"transform:translateX(12px) translateY(13px) matrix(1,1);opacity:1;transition:transform 100ms,opacity 50ms;"`;
 
 exports[`transition() should have special handling for transforms 1`] = `"transform:matrix(1,1);transition:transform 100ms;"`;
@@ -55,6 +69,8 @@ exports[`transition() should have special handling for transforms 18`] = `"trans
 exports[`transition() should have special handling for transforms 19`] = `"transform:translateY(1px);transition:transform 100ms;"`;
 
 exports[`transition() should have special handling for transforms 20`] = `"transform:translateZ(1px);transition:transform 100ms;"`;
+
+exports[`transition() should ignore null values 1`] = `"transform:translateY(0px);transition:transform 100ms 300ms;"`;
 
 exports[`transition() should override default delay 1`] = `"opacity:0;transition:opacity 100ms 300ms;"`;
 

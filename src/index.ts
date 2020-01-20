@@ -1,10 +1,4 @@
-import rootStyles, {
-  Variables,
-  StyleObject,
-  Styles,
-  DashCache,
-  StyleObjectArgument,
-} from '@-ui/styles'
+import {StyleObject, Styles, DashCache, StyleObjectArgument} from '@-ui/styles'
 
 const __DEV__ =
   typeof process !== 'undefined' && process.env.NODE_ENV !== 'production'
@@ -41,10 +35,10 @@ const cssCaseRe = /[A-Z]|^ms/g
 const cssCase = (string: string): string =>
   string.replace(cssCaseRe, '-$&').toLowerCase()
 
-const createTransitions = (
+const createTransitions = <Names extends string>(
   dash: DashCache,
-  transitionDefs: TransitionDefs,
-  styleName?: string | StyleObjectArgument
+  transitionDefs: TransitionDefs<Names, typeof dash.variables>,
+  styleName?: string | StyleObjectArgument<Names>
 ): StyleObject => {
   const styleDefs: StyleObject = {}
   const transitions: string[] = []
@@ -110,9 +104,7 @@ const createTransitions = (
           styleDefs.transform = styleDefs.transform || {}
 
           if (pxTransforms.test(key)) {
-            value = Array.isArray(value)
-              ? value.map(v => unit(v, 'px'))
-              : unit(value, 'px')
+            value = Array.isArray(value) ? value.map(v => unit(v)) : unit(value)
           } else if (degTransforms.test(key)) {
             value = Array.isArray(value)
               ? value.map(v => unit(v, 'deg'))
@@ -150,10 +142,10 @@ const createTransitions = (
   return styleDefs
 }
 
-const createTransitionsFromArgs = (
+const createTransitionsFromArgs = <Names extends string>(
   dash: DashCache,
-  transitionDefs: TransitionDefs,
-  args: (string | StyleObjectArgument)[]
+  transitionDefs: TransitionDefs<Names, typeof dash.variables>,
+  args: (string | StyleObjectArgument<Names>)[]
 ): StyleObject => {
   if (args.length > 1) {
     const argDefs = {}
@@ -168,77 +160,44 @@ const createTransitionsFromArgs = (
   } else return createTransitions(dash, transitionDefs, args[0])
 }
 
-export interface Transitioner {
-  (...args: (string | StyleObjectArgument)[]): string
-  css: (...names: (string | StyleObjectArgument)[]) => string
-  style: (...names: (string | StyleObjectArgument)[]) => StyleObject
-  transitions: TransitionDefs
+export interface Transitioner<Names extends string, Vars = any> {
+  (...args: (Names | StyleObjectArgument<Names>)[]): string
+  css: (...names: (Names | StyleObjectArgument<Names>)[]) => string
+  style: (...names: (Names | StyleObjectArgument<Names>)[]) => StyleObject
+  transitions: TransitionDefs<Names, Vars>
 }
 
 export interface TransitionPhase {
-  [phase: string]: any
   duration?: number | string
   delay?: number | string
   timing?: string
+  [property: string]: any
 }
 
-export type TransitionDef =
+export type TransitionDef<Vars = any> =
   | TransitionPhase
-  | ((variables: Variables) => TransitionPhase)
+  | ((variables: Vars) => TransitionPhase)
 
-export interface TransitionDefs {
-  [property: string]: TransitionDef
+export type TransitionDefs<Names extends string, Vars> = {
+  [Name in Names | 'default']?: TransitionDef<Vars>
 }
 
-export interface Transition {
-  (...transitionArgs: (TransitionDefs | Transitioner)[]): Transitioner
-  dash: DashCache
-  create: (styles: Styles) => Transition
+function transition<Names extends string, Vars = any>(
+  styles: Styles<Vars>,
+  transitions: TransitionDefs<Names, Vars>
+): Transitioner<Names, Vars> {
+  const transitioner = (
+    ...args: (string | StyleObjectArgument<Names>)[]
+  ): string =>
+    styles.one(createTransitionsFromArgs(styles.dash, transitions, args))()
+
+  transitioner.css = (...names) =>
+    styles.one(transitioner.style(...names)).css()
+  transitioner.style = (
+    ...names: (string | StyleObjectArgument<Names>)[]
+  ): StyleObject => createTransitionsFromArgs(styles.dash, transitions, names)
+  transitioner.transitions = transitions
+  return transitioner
 }
 
-const createTransition = (styles: Styles): Transition => {
-  const transition = (
-    ...transitionArgs: (TransitionDefs | Transitioner)[]
-  ): Transitioner => {
-    const transitions = Object.assign(
-      {},
-      ...transitionArgs.map((arg: TransitionDefs | Transitioner) =>
-        typeof arg === 'function' ? arg.transitions : arg
-      )
-    )
-
-    const transitioner = (
-      ...args: (string | StyleObjectArgument)[]
-    ): string => {
-      const normalizedStyleDefs = createTransitionsFromArgs(
-        styles.dash,
-        transitions,
-        args
-      )
-      if (!normalizedStyleDefs) return ''
-      return styles.one(normalizedStyleDefs)()
-    }
-
-    transitioner.css = (...names: (string | StyleObjectArgument)[]): string =>
-      styles.one(transitioner.style(...names)).css()
-    transitioner.style = (
-      ...names: (string | StyleObjectArgument)[]
-    ): StyleObject => {
-      const normalizedStyleDefs = createTransitionsFromArgs(
-        styles.dash,
-        transitions,
-        names
-      )
-      if (!normalizedStyleDefs) return {}
-      return normalizedStyleDefs
-    }
-    transitioner.transitions = transitions
-    return transitioner
-  }
-
-  transition.dash = styles.dash
-  transition.create = (styles: Styles): Transition => createTransition(styles)
-  return transition
-}
-
-export default createTransition(rootStyles)
+export default transition
