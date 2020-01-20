@@ -1,6 +1,6 @@
 {
   "name": "@-ui/transition",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "homepage": "https://github.com/dash-ui/transition#readme",
   "repository": "github:dash-ui/transition",
   "bugs": "https://github.com/dash-ui/transition/issues",
@@ -51,7 +51,7 @@
     ]
   },
   "devDependencies": {
-    "@-ui/styles": "^1.0.51",
+    "@-ui/styles": "^1.0.56",
     "@lunde/babel-preset-es": "latest",
     "@rollup/plugin-replace": "^2.3.0",
     "@types/jest": "latest",
