@@ -61,7 +61,7 @@
     "eslint": "latest",
     "eslint-import-resolver-jest": "latest",
     "eslint-plugin-jest": "latest",
-    "husky": "latest",
+    "husky": "^4.2.5",
     "jest": "latest",
     "lint-staged": "latest",
     "prettier": "latest",
