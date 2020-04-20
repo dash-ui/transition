@@ -1,7 +1,6 @@
 import {StyleObject, Styles, DashCache, StyleObjectArgument} from '@-ui/styles'
 
-const __DEV__ =
-  typeof process !== 'undefined' && process.env.NODE_ENV !== 'production'
+declare const __DEV__: boolean
 
 const transforms = {
   matrix: 0,
@@ -27,7 +26,7 @@ const transforms = {
   z: 'translateZ',
 }
 
-const unit = (value, unit = 'px') =>
+const unit = (value: any, unit = 'px') =>
   isNaN(value) || value === null ? value : `${value}${unit}`
 const pxTransforms = /^(translate|perspective)/
 const degTransforms = /^(skew|rotate)/
@@ -42,7 +41,9 @@ const createTransitions = <Names extends string>(
 ): StyleObject => {
   const styleDefs: StyleObject = {}
   const transitions: string[] = []
-  let duration, delay, timing
+  let duration: string | undefined,
+    delay: string | undefined,
+    timing: string | undefined
 
   if (transitionDefs.default !== void 0) {
     transitions.push('default')
@@ -64,12 +65,18 @@ const createTransitions = <Names extends string>(
   for (let i = 0; i < transitions.length; i++) {
     let phase = transitionDefs[transitions[i]]
     if (typeof phase === 'function') phase = phase(dash.variables)
+
     const {
       duration: phaseDuration,
       delay: phaseDelay,
       timing: phaseTiming,
-      ...phaseStyles
     } = phase
+
+    const phaseStyles = Object.assign({}, phase)
+    delete phaseStyles.duration
+    delete phaseStyles.delay
+    delete phaseStyles.timing
+
     const transitionDuration =
       phaseDuration === void 0 ? duration : unit(phaseDuration, 'ms')
 
@@ -97,17 +104,19 @@ const createTransitions = <Names extends string>(
       let value = phaseStyles[key]
 
       if (value !== void 0 && value !== null) {
-        let transitionProperty
+        let transitionProperty: string
 
         if (transforms[key] !== void 0) {
           key = transforms[key] || key
           styleDefs.transform = styleDefs.transform || {}
 
           if (pxTransforms.test(key)) {
-            value = Array.isArray(value) ? value.map(v => unit(v)) : unit(value)
+            value = Array.isArray(value)
+              ? value.map((v) => unit(v))
+              : unit(value)
           } else if (degTransforms.test(key)) {
             value = Array.isArray(value)
-              ? value.map(v => unit(v, 'deg'))
+              ? value.map((v) => unit(v, 'deg'))
               : unit(value, 'deg')
           }
 
@@ -132,7 +141,7 @@ const createTransitions = <Names extends string>(
 
   if (typeof styleDefs.transform === 'object')
     styleDefs.transform = Object.keys(styleDefs.transform)
-      .map(key => {
+      .map((key) => {
         const value = styleDefs.transform[key]
         return `${key}(${Array.isArray(value) ? value.join(',') : value})`
       })
@@ -186,16 +195,12 @@ function transition<Names extends string, Vars = any>(
   styles: Styles<Vars>,
   transitions: TransitionDefs<Names, Vars>
 ): Transitioner<Names, Vars> {
-  const transitioner = (
-    ...args: (string | StyleObjectArgument<Names>)[]
-  ): string =>
+  const transitioner: Transitioner<Names, Vars> = (...args) =>
     styles.one(createTransitionsFromArgs(styles.dash, transitions, args))()
-
   transitioner.css = (...names) =>
     styles.one(transitioner.style(...names)).css()
-  transitioner.style = (
-    ...names: (string | StyleObjectArgument<Names>)[]
-  ): StyleObject => createTransitionsFromArgs(styles.dash, transitions, names)
+  transitioner.style = (...names): StyleObject =>
+    createTransitionsFromArgs(styles.dash, transitions, names)
   transitioner.transitions = transitions
   return transitioner
 }

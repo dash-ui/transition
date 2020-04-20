@@ -1,10 +1,9 @@
 {
   "name": "@-ui/transition",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "homepage": "https://github.com/dash-ui/transition#readme",
   "repository": "github:dash-ui/transition",
   "bugs": "https://github.com/dash-ui/transition/issues",
-  "author": "Jared Lunde <jared.lunde@gmail.com> (https://jaredLunde.com)",
   "license": "MIT",
   "description": "A library for creating CSS transitions with -ui",
   "keywords": [
@@ -14,23 +13,25 @@
     "css animation",
     "css spring"
   ],
-  "main": "dist/cjs/index.js",
-  "module": "dist/es/index.js",
-  "types": "dist/cjs/index.d.ts",
+  "main": "dist/main/index.js",
+  "module": "dist/module/index.js",
+  "types": "types/index.d.ts",
   "umd:main": "dist/umd/-ui-transition.min.js",
   "unpkg": "dist/umd/-ui-transition.min.js",
   "files": [
-    "/dist"
+    "/dist",
+    "/types"
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build:cjs && npm run build:es && npm run build:umd && npm run build:types",
-    "build:cjs": "babel src -d dist/cjs -x .ts --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
-    "build:es": "babel src -d dist/es -x .ts --env-name es --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
-    "build:types": "tsc -p tsconfig.json -d --outDir dist/es --emitDeclarationOnly && mkdir -p dist/cjs && cp -R dist/es/**.d.ts dist/cjs && rimraf dist/**/*.test.d.ts",
-    "build:umd": "rollup -c",
+    "build": "npm run build-main && npm run build-module && npm run build-umd && npm run build-types",
+    "build-main": "npm run compile -- -d dist/main --env-name main",
+    "build-module": "npm run compile -- -d dist/module --env-name module",
+    "build-umd": "rollup -c",
+    "build-types": "tsc -p tsconfig.json -d --outDir types --emitDeclarationOnly",
     "check-types": "tsc --noEmit -p tsconfig.json",
-    "format": "prettier --write \"**/*.{ts,js,md,yml,json,babelrc,eslintrc,prettierrc}\"",
+    "compile": "babel src -x .ts --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+    "format": "prettier --write \"**/*.{ts,js,md,yml,json,eslintrc,prettierrc}\"",
     "lint": "eslint . --ext .ts",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
     "test": "jest",
@@ -38,7 +39,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run build:types"
+      "pre-commit": "npm run build-types && git add types && lint-staged"
     }
   },
   "lint-staged": {
@@ -51,13 +52,12 @@
     ]
   },
   "devDependencies": {
-    "@-ui/styles": "^1.0.56",
+    "@-ui/styles": "^1.1.1",
     "@lunde/babel-preset-es": "latest",
-    "@rollup/plugin-replace": "^2.3.0",
+    "@rollup/plugin-replace": "^2.3.2",
     "@types/jest": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
-    "cross-env": "latest",
     "eslint": "latest",
     "eslint-import-resolver-jest": "latest",
     "eslint-plugin-jest": "latest",
@@ -65,17 +65,16 @@
     "jest": "latest",
     "lint-staged": "latest",
     "prettier": "latest",
-    "rimraf": "^2.6.3",
-    "rollup": "^1.28.0",
-    "rollup-plugin-babel": "^4.3.3",
+    "rollup": "^2.6.1",
+    "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^5.1.3",
+    "rollup-plugin-terser": "^5.3.0",
     "ts-jest": "latest",
     "typescript": "latest"
   },
   "dependencies": {},
   "peerDependencies": {
-    "@-ui/styles": "^1.0.51"
+    "@-ui/styles": "^1.1.0"
   }
 }
