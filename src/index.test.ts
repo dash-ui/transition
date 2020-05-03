@@ -1,4 +1,4 @@
-import styles from '@-ui/styles'
+import styles from '@dash-ui/styles'
 import transition from './index'
 
 afterEach(() => {

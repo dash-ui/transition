@@ -14,10 +14,10 @@ const config = (filename, env, plugins = []) => ({
     exports: 'named',
     name: 'DashTransition',
     globals: {
-      '@-ui/styles': 'Dash',
+      '@dash-ui/styles': 'Dash',
     },
   },
-  external: ['@-ui/styles'],
+  external: ['@dash-ui/styles'],
   plugins: [
     resolve(),
     commonjs(),

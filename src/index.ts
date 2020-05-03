@@ -1,4 +1,9 @@
-import {StyleObject, Styles, DashCache, StyleObjectArgument} from '@-ui/styles'
+import {
+  StyleObject,
+  Styles,
+  DashCache,
+  StyleObjectArgument,
+} from '@dash-ui/styles'
 
 declare const __DEV__: boolean
 

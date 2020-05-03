@@ -1,30 +1,35 @@
 {
-  "name": "@-ui/transition",
-  "version": "1.1.0",
+  "name": "@dash-ui/transition",
+  "version": "0.1.0",
   "homepage": "https://github.com/dash-ui/transition#readme",
   "repository": "github:dash-ui/transition",
   "bugs": "https://github.com/dash-ui/transition/issues",
   "license": "MIT",
-  "description": "A library for creating CSS transitions with -ui",
+  "description": "A library for creating CSS transitions with dash-ui",
   "keywords": [
     "css transition",
     "css-in-js transition",
     "css-in-js animation",
+    "css-in-react transition",
+    "css-in-react animation",
     "css animation",
     "css spring"
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
+  "source": "src/index.ts",
   "types": "types/index.d.ts",
-  "umd:main": "dist/umd/-ui-transition.min.js",
-  "unpkg": "dist/umd/-ui-transition.min.js",
+  "umd:main": "dist/umd/dash-ui-transition.min.js",
+  "unpkg": "dist/umd/dash-ui-transition.min.js",
   "files": [
     "/dist",
+    "/src",
     "/types"
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build-main && npm run build-module && npm run build-umd && npm run build-types",
+    "build": "npm run build-esm && npm run build-main && npm run build-module && npm run build-umd && npm run build-types",
+    "build-esm": "npm run compile -- -d dist/esm --env-name esm --out-file-extension .mjs",
     "build-main": "npm run compile -- -d dist/main --env-name main",
     "build-module": "npm run compile -- -d dist/module --env-name module",
     "build-umd": "rollup -c",
@@ -52,19 +57,20 @@
     ]
   },
   "devDependencies": {
-    "@-ui/styles": "^1.1.1",
+    "@dash-ui/styles": "^0.1.2",
     "@lunde/babel-preset-es": "latest",
     "@rollup/plugin-replace": "^2.3.2",
     "@types/jest": "latest",
-    "@typescript-eslint/eslint-plugin": "latest",
-    "@typescript-eslint/parser": "latest",
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
+    "babel-plugin-annotate-pure-calls": "^0.4.0",
     "eslint": "latest",
     "eslint-import-resolver-jest": "latest",
     "eslint-plugin-jest": "latest",
     "husky": "^4.2.5",
-    "jest": "latest",
-    "lint-staged": "latest",
-    "prettier": "latest",
+    "jest": "^25.5.4",
+    "lint-staged": "^10.2.2",
+    "prettier": "^2.0.5",
     "rollup": "^2.6.1",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
@@ -75,6 +81,6 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "@-ui/styles": "^1.1.0"
+    "@dash-ui/styles": "^0.1.2"
   }
 }

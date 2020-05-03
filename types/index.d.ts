@@ -1,4 +1,4 @@
-import {StyleObject, Styles, StyleObjectArgument} from '@-ui/styles'
+import {StyleObject, Styles, StyleObjectArgument} from '@dash-ui/styles'
 export interface Transitioner<Names extends string, Vars = any> {
   (...args: (Names | StyleObjectArgument<Names>)[]): string
   css: (...names: (Names | StyleObjectArgument<Names>)[]) => string
