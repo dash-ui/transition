@@ -1,6 +1,6 @@
 {
   "name": "@dash-ui/transition",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/dash-ui/transition#readme",
   "repository": "github:dash-ui/transition",
   "bugs": "https://github.com/dash-ui/transition/issues",
@@ -21,6 +21,15 @@
   "types": "types/index.d.ts",
   "umd:main": "dist/umd/dash-ui-transition.min.js",
   "unpkg": "dist/umd/dash-ui-transition.min.js",
+  "exports": {
+    ".": {
+      "browser": "./dist/module/index.js",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/main/index.js"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  },
   "files": [
     "/dist",
     "/src",
