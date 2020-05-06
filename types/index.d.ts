@@ -1,9 +1,23 @@
-import {StyleObject, Styles, StyleObjectArgument} from '@dash-ui/styles'
-export interface Transitioner<Names extends string, Vars = any> {
-  (...args: (Names | StyleObjectArgument<Names>)[]): string
-  css: (...names: (Names | StyleObjectArgument<Names>)[]) => string
-  style: (...names: (Names | StyleObjectArgument<Names>)[]) => StyleObject
-  transitions: TransitionDefs<Names, Vars>
+import type {Styles, StyleObject, DashVariables} from '@dash-ui/styles'
+declare const transition: <
+  TransitionNames extends string,
+  Variables extends DashVariables = DashVariables
+>(
+  styles: Styles<Variables, never>,
+  transitions: TransitionMap<TransitionNames, Variables>
+) => Transitioner<TransitionNames, Variables>
+export interface Transitioner<
+  TransitionNames extends string,
+  Variables extends DashVariables = DashVariables
+> {
+  (...args: (TransitionNames | TransitionObject<TransitionNames>)[]): string
+  css: (
+    ...names: (TransitionNames | TransitionObject<TransitionNames>)[]
+  ) => string
+  style: (
+    ...names: (TransitionNames | TransitionObject<TransitionNames>)[]
+  ) => StyleObject
+  transitions: TransitionMap<TransitionNames, Variables>
 }
 export interface TransitionPhase {
   duration?: number | string
@@ -11,14 +25,16 @@ export interface TransitionPhase {
   timing?: string
   [property: string]: any
 }
-export declare type TransitionDef<Vars = any> =
-  | TransitionPhase
-  | ((variables: Vars) => TransitionPhase)
-export declare type TransitionDefs<Names extends string, Vars> = {
-  [Name in Names | 'default']?: TransitionDef<Vars>
+export declare type TransitionMap<
+  TransitionNames extends string,
+  Variables extends DashVariables = DashVariables
+> = {
+  [Name in TransitionNames | 'default']?: TransitionValue<Variables>
 }
-declare function transition<Names extends string, Vars = any>(
-  styles: Styles<Vars>,
-  transitions: TransitionDefs<Names, Vars>
-): Transitioner<Names, Vars>
+export declare type TransitionValue<
+  Variables extends DashVariables = DashVariables
+> = TransitionPhase | ((variables: Variables) => TransitionPhase)
+declare type TransitionObject<TransitionNames extends string = string> = {
+  [Name in TransitionNames]?: boolean | null | undefined | string | number
+}
 export default transition
