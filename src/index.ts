@@ -19,7 +19,10 @@ const transition = <
   return transitioner
 }
 
-const createTransitions = <TransitionNames extends string>(
+const createTransitions = <
+  TransitionNames extends string,
+  Variables extends DashVariables = DashVariables
+>(
   dash: Dash,
   transitionMap: TransitionMap<TransitionNames, DashVariables>,
   styleName?: string | TransitionObject
@@ -137,7 +140,10 @@ const createTransitions = <TransitionNames extends string>(
   return styleMap
 }
 
-const createTransitionsFromArgs = <TransitionNames extends string>(
+const createTransitionsFromArgs = <
+  TransitionNames extends string,
+  Variables extends DashVariables = DashVariables
+>(
   dash: Dash,
   transitionMap: TransitionMap<TransitionNames, typeof dash.variables>,
   args: (string | TransitionObject<TransitionNames>)[]
@@ -151,8 +157,17 @@ const createTransitionsFromArgs = <TransitionNames extends string>(
       else if (typeof arg === 'object') Object.assign(argMap, arg)
     }
 
-    return createTransitions(dash, transitionMap, argMap)
-  } else return createTransitions(dash, transitionMap, args[0])
+    return createTransitions<TransitionNames, Variables>(
+      dash,
+      transitionMap,
+      argMap
+    )
+  } else
+    return createTransitions<TransitionNames, Variables>(
+      dash,
+      transitionMap,
+      args[0]
+    )
 }
 
 export interface Transitioner<

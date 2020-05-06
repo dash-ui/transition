@@ -1,6 +1,6 @@
 {
   "name": "@dash-ui/transition",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "homepage": "https://github.com/dash-ui/transition#readme",
   "repository": "github:dash-ui/transition",
   "bugs": "https://github.com/dash-ui/transition/issues",
@@ -94,6 +94,6 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "@dash-ui/styles": "^0.3.0"
+    "@dash-ui/styles": ">=0.3.0"
   }
 }
