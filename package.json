@@ -70,7 +70,7 @@
     ]
   },
   "devDependencies": {
-    "@dash-ui/styles": "^0.3.0",
+    "@dash-ui/styles": "^0.4.0",
     "@lunde/babel-preset-es": "latest",
     "@rollup/plugin-babel": "^5.0.0",
     "@rollup/plugin-commonjs": "^11.1.0",

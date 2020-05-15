@@ -1,4 +1,4 @@
-import styles from '@dash-ui/styles'
+import styles, {createStyles} from '@dash-ui/styles'
 import transition from './index'
 
 afterEach(() => {
@@ -250,7 +250,7 @@ describe('transition()', () => {
       }
     }
 
-    const myStyles = styles.create<Variables>()
+    const myStyles = createStyles<Variables>()
     myStyles.variables({
       duration: {
         slow: 1000,
@@ -278,7 +278,7 @@ describe('transition()', () => {
       }
     }
 
-    const myStyles = styles.create<Variables>()
+    const myStyles = createStyles<Variables>()
     myStyles.variables({
       duration: {
         slow: 1000,
