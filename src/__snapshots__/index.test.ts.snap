@@ -84,7 +84,6 @@ exports[`transition() should write styles to the DOM 1`] = `
 <style
   data-dash="ui"
 >
-  
   .ui-zi2gip{opacity:0;-webkit-transition:opacity 300ms;transition:opacity 300ms;}
 </style>
 `;

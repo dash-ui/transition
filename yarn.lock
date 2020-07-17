@@ -1156,18 +1156,18 @@
   resolved "https://registry.yarnpkg.com/@commitlint/types/-/types-9.0.1.tgz#df281f0f3d8f3adb10c95e4dd72b16acf41b5400"
   integrity sha512-wo2rHprtDzTHf4tiSxavktJ52ntiwmg7eHNGFLH38G1of8OfGVwOc1sVbpM4jN/HK/rCMhYOi6xzoPqsv0537A==
 
-"@dash-ui/styles@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@dash-ui/styles/-/styles-0.5.0.tgz#c593b04351118aea992bab7bc167c2782a7c8f8a"
-  integrity sha512-LhuB2MVu+9PI+qfn49h5VenbcguackktBHZci7Qn2hChezsqBU7yB30MnYFpKPTJTtrdVl06m8XE1Zh0Tlus/Q==
+"@dash-ui/styles@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@dash-ui/styles/-/styles-0.6.2.tgz#47aaa8cf9e5272aaf4ba20d0cc5cca10e4b04a2c"
+  integrity sha512-OQUUW6Ma94FhFfMXb6nX8BlSNjBi5bisA1vxhuqzoEyaQLD+xV172v3voMY5+tXlnISRQE3msZlAcTwGkau4kw==
   dependencies:
-    "@dash-ui/stylis" "^1.0.3"
+    "@dash-ui/stylis" "^1.0.5"
     "@dash-ui/unitless" "^2.0.0"
 
-"@dash-ui/stylis@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@dash-ui/stylis/-/stylis-1.0.3.tgz#2708b3155a24e449ac8b7affd5195d056e5e3fbd"
-  integrity sha512-zEjlIjUi9mElj1UDo2PxagtFpWX5xgVgHZUJMrStuS6vG6Uj4o2bKIQ9U/oe4ET9QpnefOM7QK7OZDijFCyNLg==
+"@dash-ui/stylis@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@dash-ui/stylis/-/stylis-1.0.5.tgz#a577b0f18cb34b63fcc04944395c43148ea7acda"
+  integrity sha512-7G2I1tqfIcBNyegJeORLapdsfAVSQiuoyyp725K+FBSemWNOaVMTrtRE7us1HFbAN+CP1S88vSDcKcKxgNBuxw==
 
 "@dash-ui/unitless@^2.0.0":
   version "2.0.0"

@@ -1,6 +1,4 @@
-import type {Dash, Styles, StyleObject, DashVariables} from '@dash-ui/styles'
-
-declare const __DEV__: boolean
+import type {Styles, StyleObject, DashVariables} from '@dash-ui/styles'
 
 const transition = <
   TransitionNames extends string,
@@ -10,11 +8,11 @@ const transition = <
   transitions: TransitionMap<TransitionNames, Variables>
 ): Transitioner<TransitionNames, Variables> => {
   const transitioner: Transitioner<TransitionNames, Variables> = (...args) =>
-    styles.one(createTransitionsFromArgs(styles.dash, transitions, args))()
+    styles.one(createTransitionsFromArgs(styles, transitions, args))()
   transitioner.css = (...names) =>
     styles.one(transitioner.style(...names)).css()
   transitioner.style = (...names): StyleObject =>
-    createTransitionsFromArgs(styles.dash, transitions, names)
+    createTransitionsFromArgs(styles, transitions, names)
   transitioner.transitions = transitions
   return transitioner
 }
@@ -23,7 +21,7 @@ const createTransitions = <
   TransitionNames extends string,
   Variables extends DashVariables = DashVariables
 >(
-  dash: Dash,
+  styles: Styles<Variables>,
   transitionMap: TransitionMap<TransitionNames, DashVariables>,
   styleName?: string | TransitionObject
 ): StyleObject => {
@@ -36,7 +34,7 @@ const createTransitions = <
   if (transitionMap.default !== void 0) {
     transitions.push('default')
     let defs = transitionMap.default
-    if (typeof defs === 'function') defs = defs(dash.variables)
+    if (typeof defs === 'function') defs = defs(styles.variables)
     duration = unit(defs.duration, 'ms')
     delay = unit(defs.delay, 'ms')
     timing = defs.timing
@@ -53,7 +51,7 @@ const createTransitions = <
   for (let i = 0; i < transitions.length; i++) {
     const name = transitions[i] as TransitionNames
     let phase = transitionMap[name]
-    if (typeof phase === 'function') phase = phase(dash.variables)
+    if (typeof phase === 'function') phase = phase(styles.variables)
 
     const {
       duration: phaseDuration,
@@ -70,7 +68,10 @@ const createTransitions = <
       phaseDuration === void 0 ? duration : unit(phaseDuration, 'ms')
 
     /* istanbul ignore next */
-    if (__DEV__) {
+    if (
+      typeof process !== 'undefined' &&
+      process.env.NODE_ENV === 'production'
+    ) {
       if (transitionDuration === void 0 || transitionDuration === null) {
         throw new Error(
           `No duration was found for the phase "${transitions[i]}". All phases require a duration.`
@@ -144,8 +145,8 @@ const createTransitionsFromArgs = <
   TransitionNames extends string,
   Variables extends DashVariables = DashVariables
 >(
-  dash: Dash,
-  transitionMap: TransitionMap<TransitionNames, typeof dash.variables>,
+  styles: Styles<Variables>,
+  transitionMap: TransitionMap<TransitionNames, typeof styles.variables>,
   args: (string | TransitionObject<TransitionNames>)[]
 ): StyleObject => {
   if (args.length > 1) {
@@ -158,13 +159,13 @@ const createTransitionsFromArgs = <
     }
 
     return createTransitions<TransitionNames, Variables>(
-      dash,
+      styles,
       transitionMap,
       argMap
     )
   } else
     return createTransitions<TransitionNames, Variables>(
-      dash,
+      styles,
       transitionMap,
       args[0]
     )
