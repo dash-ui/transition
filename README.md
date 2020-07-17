@@ -36,11 +36,11 @@ A library for creating CSS transitions with [**dash-ui**](https://github.com/das
 ## Quick Start
 
 ```jsx harmony
-import styles from '@dash-ui/styles'
+import {styles} from '@dash-ui/styles'
 import transition from '@dash-ui/transition'
 
-styles.variables({
-  transitions: {
+styles.insertVariables({
+  transition: {
     duration: {
       slow: '1s',
     },
@@ -53,9 +53,9 @@ const fade = transition(styles, {
     duration: 100,
   },
   // Use a callback to access variables
-  in: ({transitions}) => ({
+  in: ({transition}) => ({
     opacity: 1,
-    duration: transitions.duration.slow,
+    duration: transition.duration.slow,
   }),
   out: {
     opacity: 0,
