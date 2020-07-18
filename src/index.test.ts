@@ -60,6 +60,23 @@ describe('transition()', () => {
     expect(fade.css('in')).toMatchSnapshot()
   })
 
+  it('should allow cubic-bezier arrays for timing', () => {
+    const fade = transition(styles, {
+      default: {
+        opacity: 1,
+        timing: [0.4, 0.0, 1, 1],
+        duration: 100,
+      },
+      in: {
+        opacity: 0,
+        timing: [0.1, 0.0, 1, 1],
+      },
+    })
+
+    expect(fade.css('in')).toMatchSnapshot('0.1, 0.0, 1, 1')
+    expect(fade.css()).toMatchSnapshot('0.4, 0.0, 1, 1')
+  })
+
   it('should override default delay', () => {
     const fade = transition(styles, {
       default: {

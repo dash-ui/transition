@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`transition() should allow cubic-bezier arrays for timing: 0.1, 0.0, 1, 1 1`] = `"opacity:0;transition:opacity 100ms cubic-bezier(0.4,0,1,1),opacity 100ms cubic-bezier(0.1,0,1,1);"`;
+
+exports[`transition() should allow cubic-bezier arrays for timing: 0.4, 0.0, 1, 1 1`] = `"opacity:1;transition:opacity 100ms cubic-bezier(0.4,0,1,1);"`;
+
 exports[`transition() should compose transitions 1`] = `"transform:translateX(12px) translateY(13px) matrix(1,1);opacity:1;transition:transform 1000ms,opacity 1000ms;"`;
 
 exports[`transition() should compose transitions to style object 1`] = `

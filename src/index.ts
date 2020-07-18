@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import type {Styles, StyleObject, DashVariables} from '@dash-ui/styles'
 
 const transition = <
@@ -27,9 +28,10 @@ const createTransitions = <
 ): StyleObject => {
   const styleMap: StyleObject = {}
   const transitions: string[] = []
-  let duration: string | undefined,
-    delay: string | undefined,
-    timing: string | undefined
+  let duration: TransitionPhase['duration'],
+    delay: TransitionPhase['delay'],
+    timing: TransitionPhase['timing'],
+    origin: TransitionPhase['origin']
 
   if (transitionMap.default !== void 0) {
     transitions.push('default')
@@ -38,6 +40,8 @@ const createTransitions = <
     duration = unit(defs.duration, 'ms')
     delay = unit(defs.delay, 'ms')
     timing = defs.timing
+    origin = defs.origin
+    if (Array.isArray(timing)) timing = `cubic-bezier(${timing.join(',')})`
   }
 
   if (typeof styleName === 'string') {
@@ -53,12 +57,14 @@ const createTransitions = <
     let phase = transitionMap[name]
     if (typeof phase === 'function') phase = phase(styles.variables)
 
-    const {
+    let {
       duration: phaseDuration,
       delay: phaseDelay,
       timing: phaseTiming,
+      origin: phaseOrigin,
     } = phase as TransitionPhase
-
+    if (Array.isArray(phaseTiming))
+      phaseTiming = `cubic-bezier(${phaseTiming.join(',')})`
     const phaseStyles: TransitionPhase = Object.assign({}, phase)
     delete phaseStyles.duration
     delete phaseStyles.delay
@@ -187,7 +193,7 @@ export interface Transitioner<
 export interface TransitionPhase {
   duration?: number | string
   delay?: number | string
-  timing?: string
+  timing?: string | [number, number, number, number]
   [property: string]: any
 }
 export type TransitionMap<
