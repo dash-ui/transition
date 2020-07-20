@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/dash-ui/transition/compare/v0.3.0...v0.3.1) (2020-07-20)
+
+### Features
+
+- add array value type to timing ([fe9f60a](https://github.com/dash-ui/transition/commit/fe9f60a0960633c8363b7d130eef7f954a91d88d))
+- add transform-origin shortcut ([7d48b1d](https://github.com/dash-ui/transition/commit/7d48b1d19a2b44c1a65bb393401ccdbce2b87a9c))
+
 ## [0.3.0](https://github.com/dash-ui/transition/compare/v0.2.0...v0.3.0) (2020-07-17)
 
 ### ⚠ BREAKING CHANGES

@@ -6,6 +6,7 @@ declare const transition: <
   styles: Styles<Variables, never>,
   transitions: TransitionMap<TransitionNames, Variables>
 ) => Transitioner<TransitionNames, Variables>
+export default transition
 export interface Transitioner<
   TransitionNames extends string,
   Variables extends DashVariables = DashVariables
@@ -22,7 +23,8 @@ export interface Transitioner<
 export interface TransitionPhase {
   duration?: number | string
   delay?: number | string
-  timing?: string
+  timing?: string | [number, number, number, number]
+  origin?: string | (number | string)[]
   [property: string]: any
 }
 export declare type TransitionMap<
@@ -37,4 +39,3 @@ export declare type TransitionValue<
 declare type TransitionObject<TransitionNames extends string = string> = {
   [Name in TransitionNames]?: boolean | null | undefined | string | number
 }
-export default transition
