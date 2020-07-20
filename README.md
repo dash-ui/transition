@@ -35,6 +35,8 @@ A library for creating CSS transitions with [**dash-ui**](https://github.com/das
 
 ## Quick Start
 
+[Check out an example on **CodeSandbox**](https://codesandbox.io/s/dash-uitransition-example-lj5sv?file=/src/App.tsx)
+
 ```jsx harmony
 import {styles} from '@dash-ui/styles'
 import transition from '@dash-ui/transition'
