@@ -1164,10 +1164,10 @@
     chalk "^4.0.0"
     css "^2.2.4"
 
-"@dash-ui/styles@^0.6.2":
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/@dash-ui/styles/-/styles-0.6.2.tgz#47aaa8cf9e5272aaf4ba20d0cc5cca10e4b04a2c"
-  integrity sha512-OQUUW6Ma94FhFfMXb6nX8BlSNjBi5bisA1vxhuqzoEyaQLD+xV172v3voMY5+tXlnISRQE3msZlAcTwGkau4kw==
+"@dash-ui/styles@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@dash-ui/styles/-/styles-0.7.0.tgz#a1801c4639e205fb83e95dfed9ba0e2dcba29b62"
+  integrity sha512-M8ZA4xiack4p+2n18W+xP+LNXVOvhv/5MOhte3pYkTvzuPlmiLm6RDUkkSUEfJ+FdPfJbOqDriHhOwpBqU9FQg==
   dependencies:
     "@dash-ui/stylis" "^1.0.5"
     "@dash-ui/unitless" "^2.0.0"

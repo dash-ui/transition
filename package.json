@@ -117,7 +117,7 @@
     "@commitlint/cli": "^9.0.1",
     "@commitlint/config-conventional": "^9.0.1",
     "@dash-ui/jest": "^2.0.0",
-    "@dash-ui/styles": "^0.6.2",
+    "@dash-ui/styles": "^0.7.0",
     "@types/jest": "latest",
     "babel-jest": "latest",
     "cz-conventional-changelog": "^3.2.0",
