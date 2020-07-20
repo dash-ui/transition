@@ -10,11 +10,15 @@ const transition = <
 ): Transitioner<TransitionNames, Variables> => {
   const transitioner: Transitioner<TransitionNames, Variables> = (...args) =>
     styles.one(createTransitionsFromArgs(styles, transitions, args))()
+
   transitioner.css = (...names) =>
     styles.one(transitioner.style(...names)).css()
+
   transitioner.style = (...names): StyleObject =>
     createTransitionsFromArgs(styles, transitions, names)
+
   transitioner.transitions = transitions
+
   return transitioner
 }
 
@@ -28,10 +32,10 @@ const createTransitions = <
 ): StyleObject => {
   const styleMap: StyleObject = {}
   const transitions: string[] = []
-  let duration: TransitionPhase['duration'],
-    delay: TransitionPhase['delay'],
-    timing: TransitionPhase['timing'],
-    origin: TransitionPhase['origin']
+  let duration: TransitionPhase['duration']
+  let delay: TransitionPhase['delay']
+  let timing: TransitionPhase['timing']
+  let origin: TransitionPhase['origin']
 
   if (transitionMap.default !== void 0) {
     transitions.push('default')
@@ -40,7 +44,9 @@ const createTransitions = <
     duration = unit(defs.duration, 'ms')
     delay = unit(defs.delay, 'ms')
     timing = defs.timing
-    origin = defs.origin
+    origin = Array.isArray(defs.origin)
+      ? defs.origin.map((v) => unit(v)).join(' ')
+      : unit(defs.origin)
     if (Array.isArray(timing)) timing = `cubic-bezier(${timing.join(',')})`
   }
 
@@ -62,13 +68,18 @@ const createTransitions = <
       delay: phaseDelay,
       timing: phaseTiming,
       origin: phaseOrigin,
+      ...phaseStyles
     } = phase as TransitionPhase
     if (Array.isArray(phaseTiming))
       phaseTiming = `cubic-bezier(${phaseTiming.join(',')})`
-    const phaseStyles: TransitionPhase = Object.assign({}, phase)
-    delete phaseStyles.duration
-    delete phaseStyles.delay
-    delete phaseStyles.timing
+
+    if (phaseOrigin) {
+      origin = Array.isArray(phaseOrigin)
+        ? phaseOrigin.map((v) => unit(v)).join(' ')
+        : unit(phaseOrigin)
+    }
+
+    if (origin) styleMap.transformOrigin = origin as string
 
     const transitionDuration =
       phaseDuration === void 0 ? duration : unit(phaseDuration, 'ms')
@@ -102,8 +113,8 @@ const createTransitions = <
       if (value !== void 0 && value !== null) {
         let transitionProperty: string
 
-        if (transforms[key] !== void 0) {
-          key = transforms[key] || key
+        if (key in transforms) {
+          key = transforms[key as keyof typeof transforms] || key
           styleMap.transform = (styleMap.transform || {}) as StyleObject
 
           if (pxTransforms.test(key)) {
@@ -169,49 +180,16 @@ const createTransitionsFromArgs = <
       transitionMap,
       argMap
     )
-  } else
+  } else {
     return createTransitions<TransitionNames, Variables>(
       styles,
       transitionMap,
       args[0]
     )
+  }
 }
 
-export interface Transitioner<
-  TransitionNames extends string,
-  Variables extends DashVariables = DashVariables
-> {
-  (...args: (TransitionNames | TransitionObject<TransitionNames>)[]): string
-  css: (
-    ...names: (TransitionNames | TransitionObject<TransitionNames>)[]
-  ) => string
-  style: (
-    ...names: (TransitionNames | TransitionObject<TransitionNames>)[]
-  ) => StyleObject
-  transitions: TransitionMap<TransitionNames, Variables>
-}
-export interface TransitionPhase {
-  duration?: number | string
-  delay?: number | string
-  timing?: string | [number, number, number, number]
-  [property: string]: any
-}
-export type TransitionMap<
-  TransitionNames extends string,
-  Variables extends DashVariables = DashVariables
-> = {
-  [Name in TransitionNames | 'default']?: TransitionValue<Variables>
-}
-
-export type TransitionValue<Variables extends DashVariables = DashVariables> =
-  | TransitionPhase
-  | ((variables: Variables) => TransitionPhase)
-
-type TransitionObject<TransitionNames extends string = string> = {
-  [Name in TransitionNames]?: boolean | null | undefined | string | number
-}
-
-const transforms: Record<string, 0 | string> = {
+const transforms = {
   matrix: 0,
   matrix3d: 0,
   perspective: 0,
@@ -233,7 +211,7 @@ const transforms: Record<string, 0 | string> = {
   x: 'translateX',
   y: 'translateY',
   z: 'translateZ',
-}
+} as const
 
 const unit = (value: any, unit = 'px') =>
   isNaN(value) || value === null ? value : `${value}${unit}`
@@ -244,3 +222,40 @@ const cssCase = (string: string): string =>
   string.replace(cssCaseRe, '-$&').toLowerCase()
 
 export default transition
+
+export interface Transitioner<
+  TransitionNames extends string,
+  Variables extends DashVariables = DashVariables
+> {
+  (...args: (TransitionNames | TransitionObject<TransitionNames>)[]): string
+  css: (
+    ...names: (TransitionNames | TransitionObject<TransitionNames>)[]
+  ) => string
+  style: (
+    ...names: (TransitionNames | TransitionObject<TransitionNames>)[]
+  ) => StyleObject
+  transitions: TransitionMap<TransitionNames, Variables>
+}
+
+export interface TransitionPhase {
+  duration?: number | string
+  delay?: number | string
+  timing?: string | [number, number, number, number]
+  origin?: string | (number | string)[]
+  [property: string]: any
+}
+
+export type TransitionMap<
+  TransitionNames extends string,
+  Variables extends DashVariables = DashVariables
+> = {
+  [Name in TransitionNames | 'default']?: TransitionValue<Variables>
+}
+
+export type TransitionValue<Variables extends DashVariables = DashVariables> =
+  | TransitionPhase
+  | ((variables: Variables) => TransitionPhase)
+
+type TransitionObject<TransitionNames extends string = string> = {
+  [Name in TransitionNames]?: boolean | null | undefined | string | number
+}

@@ -322,4 +322,39 @@ describe('transition()', () => {
 
     expect(t.style('slide')).toMatchSnapshot()
   })
+
+  it('should have a transform-origin shortcut', () => {
+    const myStyles = createStyles()
+
+    const t = transition(myStyles, {
+      default: {
+        origin: 'center',
+      },
+      zoomIn: {
+        scale: 2,
+      },
+      zoomOut: {
+        scale: 0.2,
+        origin: [20, 'top'],
+      },
+    })
+
+    expect(t.style('zoomIn').transformOrigin).toBe('center')
+    expect(t.style('zoomOut').transformOrigin).toBe('20px top')
+  })
+
+  it('should use a transform-origin array', () => {
+    const myStyles = createStyles()
+
+    const t = transition(myStyles, {
+      default: {
+        origin: [20, 'top'],
+      },
+      zoomIn: {
+        scale: 2,
+      },
+    })
+
+    expect(t.style({zoomIn: true}).transformOrigin).toBe('20px top')
+  })
 })

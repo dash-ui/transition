@@ -1156,6 +1156,14 @@
   resolved "https://registry.yarnpkg.com/@commitlint/types/-/types-9.0.1.tgz#df281f0f3d8f3adb10c95e4dd72b16acf41b5400"
   integrity sha512-wo2rHprtDzTHf4tiSxavktJ52ntiwmg7eHNGFLH38G1of8OfGVwOc1sVbpM4jN/HK/rCMhYOi6xzoPqsv0537A==
 
+"@dash-ui/jest@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@dash-ui/jest/-/jest-2.0.0.tgz#b279ac15089b0cc0d35c48dbf419d6594e023669"
+  integrity sha512-zB+2PbSCuSZeXqWVqfLFdyqAA6q5RgmQp0pk0Xcifk8kckjs6nDKwElU0apLNAnwLxVRNNQ8/sFZJWPv62QhrQ==
+  dependencies:
+    chalk "^4.0.0"
+    css "^2.2.4"
+
 "@dash-ui/styles@^0.6.2":
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/@dash-ui/styles/-/styles-0.6.2.tgz#47aaa8cf9e5272aaf4ba20d0cc5cca10e4b04a2c"
@@ -2900,6 +2908,16 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+css@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/css/-/css-2.2.4.tgz#c646755c73971f2bba6a601e2cf2fd71b1298929"
+  integrity sha512-oUnjmWpy0niI3x/mPL8dVEI1l7MnG3+HHyRPHf+YFSbK+svOhXpmSOcDURUh2aOCgl2grzrOPt1nHLuCVFULLw==
+  dependencies:
+    inherits "^2.0.3"
+    source-map "^0.6.1"
+    source-map-resolve "^0.5.2"
+    urix "^0.1.0"
 
 cssom@^0.4.4:
   version "0.4.4"
@@ -7103,7 +7121,7 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-source-map-resolve@^0.5.0:
+source-map-resolve@^0.5.0, source-map-resolve@^0.5.2:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/source-map-resolve/-/source-map-resolve-0.5.3.tgz#190866bece7553e1f8f267a2ee82c606b5509a1a"
   integrity sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw==
