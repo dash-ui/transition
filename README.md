@@ -41,7 +41,7 @@ A library for creating CSS transitions with [**dash-ui**](https://github.com/das
 import {styles} from '@dash-ui/styles'
 import transition from '@dash-ui/transition'
 
-styles.insertVariables({
+styles.insertTokens({
   transition: {
     duration: {
       slow: '1s',
@@ -54,7 +54,7 @@ const fade = transition(styles, {
   default: {
     duration: 100,
   },
-  // Use a callback to access variables
+  // Use a callback to access tokens
   in: ({transition}) => ({
     opacity: 1,
     duration: transition.duration.slow,

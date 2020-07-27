@@ -261,14 +261,14 @@ describe('transition()', () => {
   })
 
   it('should create default phase with a function', () => {
-    type Variables = {
+    type Tokens = {
       duration: {
         slow: 1000
       }
     }
 
-    const myStyles = createStyles<Variables>()
-    myStyles.insertVariables({
+    const myStyles = createStyles<Tokens>()
+    myStyles.insertTokens({
       duration: {
         slow: 1000,
       },
@@ -289,14 +289,14 @@ describe('transition()', () => {
   })
 
   it('should create phase with a function', () => {
-    type Variables = {
+    type Tokens = {
       duration: {
         slow: 1000
       }
     }
 
-    const myStyles = createStyles<Variables>()
-    myStyles.insertVariables({
+    const myStyles = createStyles<Tokens>()
+    myStyles.insertTokens({
       duration: {
         slow: 1000,
       },

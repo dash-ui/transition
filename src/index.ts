@@ -1,14 +1,14 @@
 /* eslint-disable prefer-const */
-import type {Styles, StyleObject, DashVariables} from '@dash-ui/styles'
+import type {Styles, StyleObject, DashTokens} from '@dash-ui/styles'
 
 const transition = <
   TransitionNames extends string,
-  Variables extends DashVariables = DashVariables
+  Tokens extends DashTokens = DashTokens
 >(
-  styles: Styles<Variables>,
-  transitions: TransitionMap<TransitionNames, Variables>
-): Transitioner<TransitionNames, Variables> => {
-  const transitioner: Transitioner<TransitionNames, Variables> = (...args) =>
+  styles: Styles<Tokens>,
+  transitions: TransitionMap<TransitionNames, Tokens>
+): Transitioner<TransitionNames, Tokens> => {
+  const transitioner: Transitioner<TransitionNames, Tokens> = (...args) =>
     styles.one(createTransitionsFromArgs(styles, transitions, args))()
 
   transitioner.css = (...names) =>
@@ -24,10 +24,10 @@ const transition = <
 
 const createTransitions = <
   TransitionNames extends string,
-  Variables extends DashVariables = DashVariables
+  Tokens extends DashTokens = DashTokens
 >(
-  styles: Styles<Variables>,
-  transitionMap: TransitionMap<TransitionNames, DashVariables>,
+  styles: Styles<Tokens>,
+  transitionMap: TransitionMap<TransitionNames, DashTokens>,
   styleName?: string | TransitionObject
 ): StyleObject => {
   const styleMap: StyleObject = {}
@@ -40,7 +40,7 @@ const createTransitions = <
   if (transitionMap.default !== void 0) {
     transitions.push('default')
     let defs = transitionMap.default
-    if (typeof defs === 'function') defs = defs(styles.variables)
+    if (typeof defs === 'function') defs = defs(styles.tokens)
     duration = unit(defs.duration, 'ms')
     delay = unit(defs.delay, 'ms')
     timing = defs.timing
@@ -61,7 +61,7 @@ const createTransitions = <
   for (let i = 0; i < transitions.length; i++) {
     const name = transitions[i] as TransitionNames
     let phase = transitionMap[name]
-    if (typeof phase === 'function') phase = phase(styles.variables)
+    if (typeof phase === 'function') phase = phase(styles.tokens)
 
     let {
       duration: phaseDuration,
@@ -160,10 +160,10 @@ const createTransitions = <
 
 const createTransitionsFromArgs = <
   TransitionNames extends string,
-  Variables extends DashVariables = DashVariables
+  Tokens extends DashTokens = DashTokens
 >(
-  styles: Styles<Variables>,
-  transitionMap: TransitionMap<TransitionNames, typeof styles.variables>,
+  styles: Styles<Tokens>,
+  transitionMap: TransitionMap<TransitionNames, typeof styles.tokens>,
   args: (string | TransitionObject<TransitionNames>)[]
 ): StyleObject => {
   if (args.length > 1) {
@@ -175,13 +175,13 @@ const createTransitionsFromArgs = <
       else if (typeof arg === 'object') Object.assign(argMap, arg)
     }
 
-    return createTransitions<TransitionNames, Variables>(
+    return createTransitions<TransitionNames, Tokens>(
       styles,
       transitionMap,
       argMap
     )
   } else {
-    return createTransitions<TransitionNames, Variables>(
+    return createTransitions<TransitionNames, Tokens>(
       styles,
       transitionMap,
       args[0]
@@ -225,7 +225,7 @@ export default transition
 
 export interface Transitioner<
   TransitionNames extends string,
-  Variables extends DashVariables = DashVariables
+  Tokens extends DashTokens = DashTokens
 > {
   (...args: (TransitionNames | TransitionObject<TransitionNames>)[]): string
   css: (
@@ -234,7 +234,7 @@ export interface Transitioner<
   style: (
     ...names: (TransitionNames | TransitionObject<TransitionNames>)[]
   ) => StyleObject
-  transitions: TransitionMap<TransitionNames, Variables>
+  transitions: TransitionMap<TransitionNames, Tokens>
 }
 
 export interface TransitionPhase {
@@ -247,14 +247,14 @@ export interface TransitionPhase {
 
 export type TransitionMap<
   TransitionNames extends string,
-  Variables extends DashVariables = DashVariables
+  Tokens extends DashTokens = DashTokens
 > = {
-  [Name in TransitionNames | 'default']?: TransitionValue<Variables>
+  [Name in TransitionNames | 'default']?: TransitionValue<Tokens>
 }
 
-export type TransitionValue<Variables extends DashVariables = DashVariables> =
+export type TransitionValue<Tokens extends DashTokens = DashTokens> =
   | TransitionPhase
-  | ((variables: Variables) => TransitionPhase)
+  | ((tokens: Tokens) => TransitionPhase)
 
 type TransitionObject<TransitionNames extends string = string> = {
   [Name in TransitionNames]?: boolean | null | undefined | string | number
