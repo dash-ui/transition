@@ -1,13 +1,10 @@
 <hr>
-<div align="center">
-  <br/>
   <br/>
   <img src='https://github.com/dash-ui/styles/raw/master/assets/logo.png'/>
+  <blockquote>A library for creating CSS transitions with <a href="https://github.com/dash-ui/styles">dash-ui</a></blockquote>
+  <pre>npm i @dash-ui/transition</pre>
   <br/>
-  <br/>
-</div>
-
-<p align="center">
+  
   <a href="https://bundlephobia.com/result?p=@dash-ui/transition">
     <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/@dash-ui/transition?style=for-the-badge&labelColor=24292e">
   </a>
@@ -26,12 +23,7 @@
   <a aria-label="License" href="https://jaredlunde.mit-license.org/">
     <img alt="MIT License" src="https://img.shields.io/npm/l/@dash-ui/transition?style=for-the-badge&labelColor=24292e">
   </a>
-</p>
-
-<pre align="center">npm i @dash-ui/transition</pre>
 <hr>
-
-A library for creating CSS transitions with [**dash-ui**](https://github.com/dash-ui/styles)
 
 ## Quick Start
 
