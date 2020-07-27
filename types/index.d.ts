@@ -1,15 +1,15 @@
-import type {Styles, StyleObject, DashVariables} from '@dash-ui/styles'
+import type {Styles, StyleObject, DashTokens} from '@dash-ui/styles'
 declare const transition: <
   TransitionNames extends string,
-  Variables extends DashVariables = DashVariables
+  Tokens extends DashTokens = DashTokens
 >(
-  styles: Styles<Variables, never>,
-  transitions: TransitionMap<TransitionNames, Variables>
-) => Transitioner<TransitionNames, Variables>
+  styles: Styles<Tokens, never>,
+  transitions: TransitionMap<TransitionNames, Tokens>
+) => Transitioner<TransitionNames, Tokens>
 export default transition
 export interface Transitioner<
   TransitionNames extends string,
-  Variables extends DashVariables = DashVariables
+  Tokens extends DashTokens = DashTokens
 > {
   (...args: (TransitionNames | TransitionObject<TransitionNames>)[]): string
   css: (
@@ -18,7 +18,7 @@ export interface Transitioner<
   style: (
     ...names: (TransitionNames | TransitionObject<TransitionNames>)[]
   ) => StyleObject
-  transitions: TransitionMap<TransitionNames, Variables>
+  transitions: TransitionMap<TransitionNames, Tokens>
 }
 export interface TransitionPhase {
   duration?: number | string
@@ -29,13 +29,13 @@ export interface TransitionPhase {
 }
 export declare type TransitionMap<
   TransitionNames extends string,
-  Variables extends DashVariables = DashVariables
+  Tokens extends DashTokens = DashTokens
 > = {
-  [Name in TransitionNames | 'default']?: TransitionValue<Variables>
+  [Name in TransitionNames | 'default']?: TransitionValue<Tokens>
 }
-export declare type TransitionValue<
-  Variables extends DashVariables = DashVariables
-> = TransitionPhase | ((variables: Variables) => TransitionPhase)
+export declare type TransitionValue<Tokens extends DashTokens = DashTokens> =
+  | TransitionPhase
+  | ((tokens: Tokens) => TransitionPhase)
 declare type TransitionObject<TransitionNames extends string = string> = {
   [Name in TransitionNames]?: boolean | null | undefined | string | number
 }

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/dash-ui/transition/compare/v0.3.1...v0.4.0) (2020-07-27)
+
+### ⚠ BREAKING CHANGES
+
+- Drops support for @dash-ui/styles@<0.8.0
+
+- rename "variables" to "tokens" ([0d782fa](https://github.com/dash-ui/transition/commit/0d782faa3fb11c6e4f9955108852d366b5d37dce))
+
 ### [0.3.1](https://github.com/dash-ui/transition/compare/v0.3.0...v0.3.1) (2020-07-20)
 
 ### Features
