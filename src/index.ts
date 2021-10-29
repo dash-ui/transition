@@ -1,15 +1,23 @@
 /* eslint-disable prefer-const */
-import type { DashTokens, StyleObject, Styles } from "@dash-ui/styles";
+import type {
+  DashThemes,
+  DashTokens,
+  StyleObject,
+  Styles,
+  TokensUnion,
+} from "@dash-ui/styles";
 
 function transition<
   TransitionNames extends string,
-  Tokens extends DashTokens = DashTokens
+  Tokens extends DashTokens = DashTokens,
+  Themes extends DashThemes = DashThemes
 >(
-  styles: Styles<Tokens>,
-  transitions: TransitionMap<TransitionNames, Tokens>
-): Transitioner<TransitionNames, Tokens> {
-  const transitioner: Transitioner<TransitionNames, Tokens> = (...args) =>
-    styles.one(createTransitionsFromArgs(styles, transitions, args))();
+  styles: Styles<Tokens, Themes>,
+  transitions: TransitionMap<TransitionNames, Tokens, Themes>
+): Transitioner<TransitionNames, Tokens, Themes> {
+  const transitioner: Transitioner<TransitionNames, Tokens, Themes> = (
+    ...args
+  ) => styles.one(createTransitionsFromArgs(styles, transitions, args))();
 
   transitioner.css = (...names) =>
     styles.one(transitioner.style(...names)).css();
@@ -24,10 +32,11 @@ function transition<
 
 const createTransitions = <
   TransitionNames extends string,
-  Tokens extends DashTokens = DashTokens
+  Tokens extends DashTokens = DashTokens,
+  Themes extends DashThemes = DashThemes
 >(
-  styles: Styles<Tokens>,
-  transitionMap: TransitionMap<TransitionNames, DashTokens>,
+  styles: Styles<Tokens, Themes>,
+  transitionMap: TransitionMap<TransitionNames, DashTokens, Themes>,
   styleName?: string | TransitionObject
 ): StyleObject => {
   const styleMap: StyleObject = {};
@@ -161,9 +170,10 @@ const createTransitions = <
 
 const createTransitionsFromArgs = <
   TransitionNames extends string,
-  Tokens extends DashTokens = DashTokens
+  Tokens extends DashTokens = DashTokens,
+  Themes extends DashThemes = DashThemes
 >(
-  styles: Styles<Tokens>,
+  styles: Styles<Tokens, Themes>,
   transitionMap: TransitionMap<TransitionNames, typeof styles.tokens>,
   args: (string | TransitionObject<TransitionNames>)[]
 ): StyleObject => {
@@ -176,13 +186,13 @@ const createTransitionsFromArgs = <
       else if (typeof arg === "object") Object.assign(argMap, arg);
     }
 
-    return createTransitions<TransitionNames, Tokens>(
+    return createTransitions<TransitionNames, Tokens, Themes>(
       styles,
       transitionMap,
       argMap
     );
   } else {
-    return createTransitions<TransitionNames, Tokens>(
+    return createTransitions<TransitionNames, Tokens, Themes>(
       styles,
       transitionMap,
       args[0]
@@ -226,7 +236,8 @@ export default transition;
 
 export interface Transitioner<
   TransitionNames extends string,
-  Tokens extends DashTokens = DashTokens
+  Tokens extends DashTokens = DashTokens,
+  Themes extends DashThemes = DashThemes
 > {
   (...args: (TransitionNames | TransitionObject<TransitionNames>)[]): string;
   css: (
@@ -235,7 +246,7 @@ export interface Transitioner<
   style: (
     ...names: (TransitionNames | TransitionObject<TransitionNames>)[]
   ) => StyleObject;
-  transitions: TransitionMap<TransitionNames, Tokens>;
+  transitions: TransitionMap<TransitionNames, Tokens, Themes>;
 }
 
 export interface TransitionPhase {
@@ -248,14 +259,18 @@ export interface TransitionPhase {
 
 export type TransitionMap<
   TransitionNames extends string,
-  Tokens extends DashTokens = DashTokens
+  Tokens extends DashTokens = DashTokens,
+  Themes extends DashThemes = DashThemes
 > = {
-  [Name in TransitionNames | "default"]?: TransitionValue<Tokens>;
+  [Name in TransitionNames | "default"]?: TransitionValue<Tokens, Themes>;
 };
 
-export type TransitionValue<Tokens extends DashTokens = DashTokens> =
+export type TransitionValue<
+  Tokens extends DashTokens = DashTokens,
+  Themes extends DashThemes = DashThemes
+> =
   | TransitionPhase
-  | ((tokens: Tokens) => TransitionPhase);
+  | ((tokens: TokensUnion<Tokens, Themes>) => TransitionPhase);
 
 type TransitionObject<TransitionNames extends string = string> = {
   [Name in TransitionNames]?: boolean | null | undefined | string | number;

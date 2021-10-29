@@ -6,6 +6,7 @@
     "lib": ["esnext"],
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "incremental": true,
     "strict": true
   }
 }

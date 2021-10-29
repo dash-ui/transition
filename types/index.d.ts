@@ -1,15 +1,23 @@
-import type { Styles, StyleObject, DashTokens } from "@dash-ui/styles";
-declare const transition: <
+import type {
+  DashThemes,
+  DashTokens,
+  StyleObject,
+  Styles,
+  TokensUnion,
+} from "@dash-ui/styles";
+declare function transition<
   TransitionNames extends string,
-  Tokens extends DashTokens = DashTokens
+  Tokens extends DashTokens = DashTokens,
+  Themes extends DashThemes = DashThemes
 >(
-  styles: Styles<Tokens, never>,
-  transitions: TransitionMap<TransitionNames, Tokens>
-) => Transitioner<TransitionNames, Tokens>;
+  styles: Styles<Tokens, Themes>,
+  transitions: TransitionMap<TransitionNames, Tokens, Themes>
+): Transitioner<TransitionNames, Tokens, Themes>;
 export default transition;
 export interface Transitioner<
   TransitionNames extends string,
-  Tokens extends DashTokens = DashTokens
+  Tokens extends DashTokens = DashTokens,
+  Themes extends DashThemes = DashThemes
 > {
   (...args: (TransitionNames | TransitionObject<TransitionNames>)[]): string;
   css: (
@@ -18,7 +26,7 @@ export interface Transitioner<
   style: (
     ...names: (TransitionNames | TransitionObject<TransitionNames>)[]
   ) => StyleObject;
-  transitions: TransitionMap<TransitionNames, Tokens>;
+  transitions: TransitionMap<TransitionNames, Tokens, Themes>;
 }
 export interface TransitionPhase {
   duration?: number | string;
@@ -29,13 +37,17 @@ export interface TransitionPhase {
 }
 export declare type TransitionMap<
   TransitionNames extends string,
-  Tokens extends DashTokens = DashTokens
+  Tokens extends DashTokens = DashTokens,
+  Themes extends DashThemes = DashThemes
 > = {
-  [Name in TransitionNames | "default"]?: TransitionValue<Tokens>;
+  [Name in TransitionNames | "default"]?: TransitionValue<Tokens, Themes>;
 };
-export declare type TransitionValue<Tokens extends DashTokens = DashTokens> =
+export declare type TransitionValue<
+  Tokens extends DashTokens = DashTokens,
+  Themes extends DashThemes = DashThemes
+> =
   | TransitionPhase
-  | ((tokens: Tokens) => TransitionPhase);
+  | ((tokens: TokensUnion<Tokens, Themes>) => TransitionPhase);
 declare type TransitionObject<TransitionNames extends string = string> = {
   [Name in TransitionNames]?: boolean | null | undefined | string | number;
 };
