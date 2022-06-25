@@ -1,3 +1,19 @@
+# [1.0.0-alpha.2](https://github.com/dash-ui/transition/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-06-25)
+
+### Bug Fixes
+
+- remove alpha versions from peer deps ([369c80e](https://github.com/dash-ui/transition/commit/369c80e15f6419993a1c39018e99944a9719f1f0))
+
+# [1.0.0-alpha.1](https://github.com/dash-ui/transition/compare/v0.4.0...v1.0.0-alpha.1) (2021-10-29)
+
+### Features
+
+- update types to support dash alpha ([aac38fc](https://github.com/dash-ui/transition/commit/aac38fc9a32f657645f93e4396e83cf3dd3120bc))
+
+### BREAKING CHANGES
+
+- Updates types to support the latest Dash alpha version
+
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
