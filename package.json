@@ -1,6 +1,6 @@
 {
   "name": "@dash-ui/transition",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0",
   "description": "A library for creating CSS transitions with dash-ui",
   "license": "MIT",
   "author": "Jared Lunde <jared.lunde@gmail.com> (https://jaredlunde.com/)",
