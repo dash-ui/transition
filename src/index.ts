@@ -19,7 +19,7 @@ function transition<
     ...args
   ) => styles.one(createTransitionsFromArgs(styles, transitions, args))();
 
-  transitioner.css = (...names) =>
+  transitioner.css = (...names): string =>
     styles.one(transitioner.style(...names)).css();
 
   transitioner.style = (...names): StyleObject =>
@@ -224,8 +224,8 @@ const transforms = {
   z: "translateZ",
 } as const;
 
-const unit = (value: any, unit = "px") =>
-  isNaN(value) || value === null ? value : `${value}${unit}`;
+const unit = <T>(value: T, unit = "px"): T | string =>
+  isNaN(value as any) || value === null ? value : `${value}${unit}`;
 const pxTransforms = /^(translate|perspective)/;
 const degTransforms = /^(skew|rotate)/;
 const cssCaseRe = /[A-Z]|^ms/g;
