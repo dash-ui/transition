@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/dash-ui/transition/compare/v1.0.0...v1.0.1) (2022-08-18)
+
+### Bug Fixes
+
+- add explicit function return types ([#12](https://github.com/dash-ui/transition/issues/12)) ([2fdfa0d](https://github.com/dash-ui/transition/commit/2fdfa0ddfbb7a460511759d3ce60e2edb86b1405))
+
 # [1.0.0](https://github.com/dash-ui/transition/compare/v0.4.0...v1.0.0) (2022-06-25)
 
 ### Bug Fixes
